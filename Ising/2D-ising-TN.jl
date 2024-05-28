@@ -1,5 +1,5 @@
 #=
-Tensor Network Implementation of a 2D square Ising model
+Tensor Network  Julia implementation of a 2D square Ising model
 
 Tensor Renormalization Group (TRG) algorithm can be used to com-
 pute the partition function of a 2-dimensional lattice model. In
@@ -21,7 +21,7 @@ using ITensors
 let
     # Parameters
     dim = 2
-    kbT = 10
+    kbT = 3.
     maxdim = 20
     topscale = 6
 
@@ -60,24 +60,16 @@ let
         println("\n---------- Scale $(scale) -> $(1 + scale)  ----------")
 
         # Factorize tensor A into Fr, Fl
-        U, S, V = svd(
-            A, [r, d], [l, u],
-            maxdim=maxdim,
-            "scale=$scale",
-            "Tags=left"
-        )
-        Fl = U * sqrt.(S)
-        Fr = sqrt.(S) * V
+        Fl, Fr = factorize(A, (r, d), which_decomp="svd", maxdim=maxdim)
 
-        # Factorize tensor A into Fu, Fd
-        U, S, V = svd(
-            A, [l, d], [u, r],
-            maxdim=maxdim,
-            "scale=$scale",
-            "Tags=up"
-        )
-        Fu = U * sqrt.(S)
-        Fd = sqrt.(S) * V
+        # Set tags of Fd and Fu
+        Fu, Fd = factorize(A, (l, d), which_decomp="svd", maxdim=maxdim)
+
+        # Set tags
+        Fl = replacetags(Fl, "Link,fact", "left")
+        Fr = replacetags(Fr, "Link,fact", "left")
+        Fu = replacetags(Fu, "Link,fact", "up")
+        Fd = replacetags(Fd, "Link,fact", "up")
 
         # Define shared indices for Fr
         l_new = commoninds(Fl, Fr)
