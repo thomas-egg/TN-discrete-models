@@ -16,14 +16,14 @@ $$
   H = - J \sum_{i=1}^N \sum_{j=1}^N \left[ \sigma_{i,j} \sigma_{i+1,j} + \sigma_{i,j} \sigma_{i,j+1} \right] - h \sum_{i=1}^N \sum_{j=1}^N \sigma_{i,j}
 $$
 
-where $`\sigma_{i,j} \in {-1,1}`$ is the spin at site i, j in the 2D lattice. The partition function of this model was solved by Lars Onsager in 1944 but we will study how to solve for the partition function numerically using the **Tensor Renormalization Group (TRG)** algorithm. 
+where $`\sigma_{i,j} \in {-1,1}`$ is the spin at site i, j in the 2D lattice. The partition function of this model was solved by Lars Onsager in 1944 but we will study how to solve the partition function numerically using the **Tensor Renormalization Group (TRG)** algorithm. 
 ### TRG
-TRG is a coarse-graining process by which a numerical estimate for the partition function of some lattice model in the thermodynamic limit can be solved for numerically. At a high-level, the steps of the algorithm can be outlined as follows:
-- Express the lattice as a lattice of tensors, each with 4 physical indices corresponding to the 4 nearest neighbor spins
-- In each tensor, store the Boltzmann weight of every possible spin configuration (for Ising: $`2^4`$)
-- Factorize each of these tensors (SVD) and contract over new indices.
+TRG is a coarse-graining process by which a numerical estimate for the partition function of some lattice model in the thermodynamic limit can be solved numerically. At a high level, the steps of the algorithm can be outlined as follows:
+- Express the Ising model lattice as a lattice of tensors, each with 4 physical indices corresponding to the 4 nearest neighbor spins.
+- In each tensor, store the Boltzmann weight of every possible spin configuration (for Ising: 2x2x2x2 tensor)
+- Factorize these tensors (SVD) and contract over new indices.
 - Repeat this decomposition -> contraction process until only **one** tensor remains
-- The double trace of this tensor is the partition function!
+- The double trace of this tensor gives the partition function.
 
 ## References
 Original solution for 2D Ising: https://journals.aps.org/pr/abstract/10.1103/PhysRev.65.117
