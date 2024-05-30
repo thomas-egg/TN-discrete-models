@@ -22,8 +22,21 @@ TRG is a coarse-graining process by which a numerical estimate for the partition
 - Express the Ising model lattice as a lattice of tensors, each with 4 physical indices corresponding to the 4 nearest neighbor spins.
 - In each tensor, store the Boltzmann weight of every possible spin configuration (for Ising: 2x2x2x2 tensor)
 - Factorize these tensors (SVD) and contract over new indices.
+
+$$
+  A_0 \approx F^r_{\sigma_u \sigma_l} F^l_{\sigma_d \sigma_r} = F^u_{\sigma_u \sigma_r} F^d_{\sigma_d \sigma_l} 
+$$
+
+$$
+  A_1 = F^l F^u F^r F^d 
+$$
+
 - Repeat this decomposition -> contraction process until only **one** tensor remains
 - The double trace of this tensor gives the partition function.
+
+$$
+  Z = \sum_{l,r,u,d} A_{lrud} \delta_{lr} \delta_{ud}
+$$
 
 ## References
 Original solution for 2D Ising: https://journals.aps.org/pr/abstract/10.1103/PhysRev.65.117
